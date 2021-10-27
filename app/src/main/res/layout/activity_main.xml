@@ -34,7 +34,7 @@
                 android:padding="5dp">
 
                 <Button
-                    android:id="@+id/button_bluetooth"
+                    android:id="@+id/btn_bluetooth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Print by bluetooth"
@@ -42,7 +42,7 @@
                     android:layout_margin="5dp"/>
 
                 <Button
-                    android:id="@+id/button_usb"
+                    android:id="@+id/btn_usb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Print by USB"
@@ -66,10 +66,10 @@
                     android:textColor="@color/black"/>
 
                 <EditText
-                    android:id="@+id/edittext_tcp_ip"
+                    android:id="@+id/et_tcp_ip"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/outline"
+                    android:background="@drawable/border_outline"
                     android:digits="0123456789."
                     android:inputType="number"
                     android:padding="10dp"
@@ -86,10 +86,10 @@
                     android:textColor="@color/black"/>
 
                 <EditText
-                    android:id="@+id/edittext_tcp_port"
+                    android:id="@+id/et_tcp_port"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/outline"
+                    android:background="@drawable/border_outline"
                     android:inputType="number"
                     android:padding="10dp"
                     android:text="9100"
@@ -104,7 +104,7 @@
                 android:padding="5dp">
 
                 <Button
-                    android:id="@+id/button_tcp"
+                    android:id="@+id/btn_tcp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Print by TCP !"
@@ -112,7 +112,7 @@
                     android:layout_margin="5dp"/>
 
                 <Button
-                    android:id="@+id/openCashBox"
+                    android:id="@+id/btn_open_cash_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Open Cash Box"
