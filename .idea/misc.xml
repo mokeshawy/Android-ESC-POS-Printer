@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/border_outline.xml" value="0.3807291666666667" />
         <entry key="app/src/main/res/drawable/outline.xml" value="0.3807291666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/layout/activity_print_usb.xml" value="0.3645833333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3645833333333333" />
       </map>
     </option>
