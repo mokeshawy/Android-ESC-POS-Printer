@@ -40,9 +40,9 @@ class HomeFragmentViewModel : ViewModel() {
                 @Suppress("DEPRECATION")
                 printer.printFormattedTextAndCut(
                     "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.resources.getDrawableForDensity(
-                        R.drawable.ic_solaurs_logo, DisplayMetrics.DENSITY_MEDIUM)) + "</img>\n" +
+                        R.drawable.github_logo, DisplayMetrics.DENSITY_MEDIUM)) + "</img>\n" +
                             "[L]\n" +
-                            "[C]<u><font size='big'>MANEX</font></u>\n" +
+                            "[C]<u><font size='big'>Mohamed Keshawy</font></u>\n" +
                             "[L]\n" +
                             "[C]<u type='double'>" + format.format(Date()) + "</u>\n" +
                             "[C]\n" +
