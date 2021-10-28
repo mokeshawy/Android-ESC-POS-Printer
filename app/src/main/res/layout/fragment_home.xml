@@ -3,13 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="homeFragment"
+            type="com.example.esc_pos_printer.fragment.HomeFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".HomeFragment">
+        tools:context=".fragment.HomeFragment">
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -1,15 +1,13 @@
-package com.example.esc_pos_printer
+package com.example.esc_pos_printer.fragment
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Bundle
 import android.util.DisplayMetrics
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModel
 import com.dantsu.escposprinter.EscPosPrinter
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
 import com.dantsu.escposprinter.exceptions.EscPosBarcodeException
@@ -17,38 +15,23 @@ import com.dantsu.escposprinter.exceptions.EscPosConnectionException
 import com.dantsu.escposprinter.exceptions.EscPosEncodingException
 import com.dantsu.escposprinter.exceptions.EscPosParserException
 import com.dantsu.escposprinter.textparser.PrinterTextParserImg
-import com.example.esc_pos_printer.databinding.FragmentHomeBinding
+import com.example.esc_pos_printer.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-class HomeFragment : Fragment() {
-
-    lateinit var binding : FragmentHomeBinding
-    private var PERMISSION_BLUETOOTH = 1
-    override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentHomeBinding.inflate(inflater)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+class HomeFragmentViewModel : ViewModel() {
 
 
-        /* ----- btn print with bluetooth ---- */
-        binding.btnBluetooth.setOnClickListener {
-            printBluetooth()
-        }
-    }
 
     /**
      * ------------ BLUETOOTH PART -------------- *
      */
-
-    private fun printBluetooth() {
-        if(ContextCompat.checkSelfPermission(requireActivity(),android.Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED ){
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.BLUETOOTH),PERMISSION_BLUETOOTH)
+    companion object{
+        var PERMISSION_BLUETOOTH = 1
+    }
+    fun printBluetooth(context: Context) {
+        if(ContextCompat.checkSelfPermission(context,android.Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED ){
+            ActivityCompat.requestPermissions(context as Activity, arrayOf(android.Manifest.permission.BLUETOOTH),PERMISSION_BLUETOOTH)
         }else{
             val format = SimpleDateFormat("'on' yyyy-MM-dd 'at' HH:mm:ss")
             var printer : EscPosPrinter? = null
@@ -56,7 +39,8 @@ class HomeFragment : Fragment() {
                 printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(),203, 48f, 32)
                 @Suppress("DEPRECATION")
                 printer.printFormattedTextAndCut(
-                    "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, resources.getDrawableForDensity(R.drawable.ic_solaurs_logo, DisplayMetrics.DENSITY_MEDIUM)) + "</img>\n" +
+                    "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.resources.getDrawableForDensity(
+                        R.drawable.ic_solaurs_logo, DisplayMetrics.DENSITY_MEDIUM)) + "</img>\n" +
                             "[L]\n" +
                             "[C]<u><font size='big'>MANEX</font></u>\n" +
                             "[L]\n" +
@@ -88,40 +72,28 @@ class HomeFragment : Fragment() {
                 )
             }catch ( e: EscPosConnectionException) {
                 e.printStackTrace();
-                AlertDialog.Builder(requireActivity())
+                AlertDialog.Builder(context)
                     .setTitle("Broken connection")
                     .setMessage(e.message)
                     .show();
             } catch ( e: EscPosParserException) {
                 e.printStackTrace();
-                AlertDialog.Builder(requireActivity())
+                AlertDialog.Builder(context)
                     .setTitle("Invalid formatted text")
                     .setMessage(e.message)
                     .show();
             } catch (e: EscPosEncodingException) {
                 e.printStackTrace();
-                AlertDialog.Builder(requireActivity())
+                AlertDialog.Builder(context)
                     .setTitle("Bad selected encoding")
                     .setMessage(e.message)
                     .show();
             } catch (e: EscPosBarcodeException) {
                 e.printStackTrace();
-                AlertDialog.Builder(requireActivity())
+                AlertDialog.Builder(context)
                     .setTitle("Invalid barcode")
                     .setMessage(e.message)
                     .show();
-            }
-        }
-    }
-
-    @Suppress("DEPRECATION")
-    override fun onRequestPermissionsResult( requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            when(requestCode){
-                PERMISSION_BLUETOOTH ->{
-                    printBluetooth()
-                }
             }
         }
     }
