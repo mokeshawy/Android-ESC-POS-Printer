@@ -5,10 +5,12 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.util.DisplayMetrics
+import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import com.dantsu.escposprinter.EscPosPrinter
+import com.dantsu.escposprinter.connection.bluetooth.BluetoothConnection
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
 import com.dantsu.escposprinter.exceptions.EscPosBarcodeException
 import com.dantsu.escposprinter.exceptions.EscPosConnectionException
@@ -26,9 +28,39 @@ class HomeFragmentViewModel : ViewModel() {
     /**
      * ------------ BLUETOOTH PART -------------- *
      */
+    var selectDevice : BluetoothConnection? = null
     companion object{
         var PERMISSION_BLUETOOTH = 1
     }
+
+    /* ------------- select printer device --------- */
+    fun browseBluetoothDevice( context: Context , btnBluetoothBrowsPrinter : Button ) {
+        val bluetoothDevicesList = BluetoothPrintersConnections().list
+        if(bluetoothDevicesList != null ){
+            val items = arrayOfNulls<String>(bluetoothDevicesList.size + 1)
+            items[0] = "Default printer"
+            var i = 0
+
+            for( device in bluetoothDevicesList){
+                items[++i] = device.device.name
+            }
+            val dialog = AlertDialog.Builder(context)
+            dialog.setTitle("Bluetooth printer selection")
+            dialog.setItems(items){dialog, which ->
+                val index = which - 1
+                if( index == -1 ){
+                    selectDevice = null
+                }else{
+                    selectDevice = bluetoothDevicesList[index]
+                }
+                btnBluetoothBrowsPrinter.text = items[which]
+            }
+            dialog.create()
+            dialog.setCancelable(false)
+            dialog.show()
+        }
+    }
+
     fun printBluetooth(context: Context) {
         if(ContextCompat.checkSelfPermission(context,android.Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED ){
             ActivityCompat.requestPermissions(context as Activity, arrayOf(android.Manifest.permission.BLUETOOTH),PERMISSION_BLUETOOTH)

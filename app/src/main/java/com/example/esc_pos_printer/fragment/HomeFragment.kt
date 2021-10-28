@@ -18,7 +18,7 @@ class HomeFragment : Fragment() {
 
     lateinit var binding : FragmentHomeBinding
     private val homeFragmentViewModel : HomeFragmentViewModel by viewModels()
-    var selectDevice : BluetoothConnection? = null
+
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater)
@@ -34,7 +34,7 @@ class HomeFragment : Fragment() {
 
         /* ----- btn bowers bluetooth printer ----- */
         binding.btnBluetoothBrowsePrinter.setOnClickListener {
-            browseBluetoothDevice()
+            homeFragmentViewModel.browseBluetoothDevice(requireActivity() ,binding.btnBluetoothBrowsePrinter)
         }
 
         /* ----- btn print with bluetooth ---- */
@@ -48,33 +48,6 @@ class HomeFragment : Fragment() {
     /**
      * ------------ BLUETOOTH PART -------------- *
      */
-    private fun browseBluetoothDevice() {
-        val bluetoothDevicesList = BluetoothPrintersConnections().list
-        if(bluetoothDevicesList != null ){
-            val items = arrayOfNulls<String>(bluetoothDevicesList.size + 1)
-            items[0] = "Default printer"
-            var i = 0
-            for( device in bluetoothDevicesList){
-                items[++i] = device.device.name
-            }
-            val dialog = AlertDialog.Builder(requireActivity())
-            dialog.setTitle("Bluetooth printer selection")
-            dialog.setItems(items){dialog, which ->
-                val index = i - 1
-                if( index == -1 ){
-                    selectDevice = null
-                }else{
-                    selectDevice = bluetoothDevicesList[index]
-                }
-                binding.btnBluetoothBrowsePrinter.text = items[i]
-            }
-            dialog.create()
-            dialog.setCancelable(false)
-            dialog.show()
-        }
-    }
-
-
     @Suppress("DEPRECATION")
     override fun onRequestPermissionsResult( requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
